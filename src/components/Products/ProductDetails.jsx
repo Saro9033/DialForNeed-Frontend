@@ -203,7 +203,7 @@ const ProductDetails = () => {
                                     </span>
                                     <Button onClick={increaseQty} variant="primary" className="ml-2 count">+</Button>
                                 </div> &nbsp;&nbsp;
-                                <Button type="button" style={{background:'#1BA786'}} onClick={addToCart} disabled={(product.stock == 0 || user.role === "admin" ) ? true : false} >Add to Cart</Button>
+                                <Button type="button" style={{background:'#1BA786'}} onClick={addToCart} disabled={(product.stock == 0 || user?.role === "admin" ) ? true : false} >Add to Cart</Button>
                             </div>
                             <hr />
 
