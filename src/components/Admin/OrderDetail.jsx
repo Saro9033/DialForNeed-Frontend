@@ -137,7 +137,7 @@ const OrderDetail = () => {
             data.rows.push({
                 product: (
                     <>
-                        <img width="50" src={order.productId.images[0]?.image} alt="" />
+                        <img width="50" src={order.productId?.images[0]?.image} alt="" />
                         <br />
                         <span className='text-secondary' style={{ fontSize: '14px' }}>{order.productId.name}&nbsp;({order.quantity}x)</span>
                     </>
