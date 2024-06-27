@@ -81,7 +81,7 @@ const RequestsList = () => {
                                 <img src={req.productId?.images[0]?.image} width="50" height="50" style={{ borderRadius: '50%' }} className="border" alt="" />
                                 <div className='d-flex flex-column pl-2'>
                                     <h6 style={{ fontSize: '13px' }} className='m-0'>{req.productId?.name}</h6>
-                                    <p style={{ fontSize: '13px' }} className='m-0 text-secondary'>{req.productId.description.slice(0, 20)}</p>
+                                    <p style={{ fontSize: '13px' }} className='m-0 text-secondary'>{req.productId?.description.slice(0, 20)}</p>
                                 </div>
                             </div>
                             <div>
@@ -133,7 +133,7 @@ const RequestsList = () => {
                             </tr>
                             <tr>
                                 <td style={{ width: '150px' }}><span style={{ fontWeight: '700' }}>Price:</span></td>
-                                <td>{selectedRequest?.productId.price}</td>
+                                <td>{selectedRequest?.productId?.price}</td>
                             </tr>
                             <tr>
                                 <td style={{ width: '150px' }}><span style={{ fontWeight: '700' }}>Status:</span></td>
