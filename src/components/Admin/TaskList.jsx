@@ -132,7 +132,7 @@ const TaskList = () => {
                             <span className='text-secondary' style={{ fontSize: '14px' }}>({task?.employee?.phoneNumber})</span>
                         </>}
                 </>,
-                actions: <>
+                actions: <div className='d-flex gap-2'>
                     <button onClick={(e) => handleViewTask(task._id)} className='btn btn-primary'>
                         <FaRegEye />
                     </button> &nbsp; &nbsp;
@@ -153,7 +153,7 @@ const TaskList = () => {
                         <FaTrashAlt />
                     </button>
 
-                </>,
+                </div>,
 
             });
         });
