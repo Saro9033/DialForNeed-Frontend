@@ -40,7 +40,7 @@ export const loadUser = createAsyncThunk('auth/loadUser',
             return response.data; // Assuming response.data is an object with user details
         } catch (error) {
             console.error('Error loading user:', error.response?.data?.message || 'Unknown error');
-            return rejectWithValue(error.response?.data?.message );
+            return rejectWithValue(error.response?.data?.message);
         }
     }
 );
@@ -50,10 +50,17 @@ export const logoutUser = createAsyncThunk('auth/logoutUser',
     async (_, { rejectWithValue }) => {
         try {
             const response = await API.get('/logout');
+            // Clear all cookies related to your application
+            const cookies = document.cookie.split('; ');
+            for (let cookie of cookies) {
+                const [name] = cookie.split('=');
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            }
+
             return response.data; // Assuming response.data is an object with user details
         } catch (error) {
             console.error('Error loading user:', error.response?.data?.message || 'Unknown error');
-            return rejectWithValue(error.response?.data?.message );
+            return rejectWithValue(error.response?.data?.message);
         }
     }
 );
@@ -70,7 +77,7 @@ export const editUser = createAsyncThunk('auth/editUser',
             return response.data; // Assuming response.data is an object with user details
         } catch (error) {
             console.error('Error loading user:', error.response?.data?.message || 'Unknown error');
-            return rejectWithValue(error.response?.data?.message );
+            return rejectWithValue(error.response?.data?.message);
         }
     }
 );
@@ -80,9 +87,9 @@ export const editUser = createAsyncThunk('auth/editUser',
 export const forgotPassword = createAsyncThunk('auth/forgotPassword',
     async (email, { rejectWithValue }) => {
         try {
-            console.log({email})
-            const response = await API.post('/password/forgot', {email});
-            return response.data; 
+            console.log({ email })
+            const response = await API.post('/password/forgot', { email });
+            return response.data;
         } catch (error) {
             console.error('Error loading user:', error.response?.data?.message || 'Unknown error');
             return rejectWithValue(error.response?.data?.message);
@@ -95,8 +102,8 @@ export const resetPassword = createAsyncThunk(
     'auth/resetPassword',
     async ({ password, confirmPassword, token }, { rejectWithValue }) => {
         try {
-          
-            const response = await API.post(`/password/reset/${token}`, {password, confirmPassword});
+
+            const response = await API.post(`/password/reset/${token}`, { password, confirmPassword });
 
             return response.data;
         } catch (error) {
@@ -124,7 +131,7 @@ const authSlice = createSlice({
         clearUpdated(state, action) {
             return {
                 ...state,
-                isUpdated : false
+                isUpdated: false
             }
         }
     },
@@ -195,8 +202,7 @@ const authSlice = createSlice({
                 state.status = 'succeeded';
                 state.isAuthenticated = false;
                 state.error = null;
-                state.user = action.payload.user;
-
+                state.user = null;
             })
             .addCase(logoutUser.rejected, (state, action) => {
                 state.status = 'failed';

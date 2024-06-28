@@ -5,6 +5,7 @@ import { clearError, loginAuthError, loginAuthStatus, loginIsAuthenticated, rese
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner'
+import { useSnackbar } from 'notistack';
 
 const ResetPassword = () => {
     const [pass, setPass] = useState('')
@@ -14,6 +15,7 @@ const ResetPassword = () => {
     const LoginIsAuthenticated = useSelector(loginIsAuthenticated);
     const LoginAuthStatus = useSelector(loginAuthStatus);
     const LoginAuthError = useSelector(loginAuthError);
+    const { enqueueSnackbar } = useSnackbar();
 
     const [show1, setShow1] = useState(false)
     const [show2, setShow2] = useState(false)
