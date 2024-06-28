@@ -119,7 +119,8 @@ const authSlice = createSlice({
         isAuthenticated: false,
         status: 'idle',
         error: null,
-        user: null
+        user: null,
+        passwordReset:false
     },
     reducers: {
         clearError(state, action) {
@@ -132,6 +133,12 @@ const authSlice = createSlice({
             return {
                 ...state,
                 isUpdated: false
+            }
+        },
+        clearPasswordReseted(state, action) {
+            return {
+                ...state,
+                passwordReset: false
             }
         }
     },
@@ -255,6 +262,7 @@ const authSlice = createSlice({
                 state.status = 'succeeded';
                 state.isAuthenticated = true;
                 state.user = action.payload.user;
+                state.passwordReset = true
             })
             .addCase(resetPassword.rejected, (state, action) => {
                 state.status = 'failed';
@@ -279,5 +287,8 @@ export default authSlice.reducer;
 // forgot password 
 export const Message = (state) => state.auth.message;
 
+//Password Resetted
+export const passwordResetted = (state) => state.auth.passwordReset;
+
 //Exporting reducer
-export const { clearError, clearUpdated } = authSlice.actions
+export const { clearPasswordReseted, clearError, clearUpdated } = authSlice.actions

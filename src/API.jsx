@@ -3,5 +3,5 @@ import axios from 'axios'
 axios.defaults.withCredentials = true;
 
 export default axios.create(
-    {baseURL:'https://dialforneed-server.vercel.app/api'}
+    {baseURL:'https://dialforneed-1.onrender.com/api'}
 )

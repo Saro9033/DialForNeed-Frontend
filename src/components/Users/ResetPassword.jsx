@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { clearError, loginAuthError, loginAuthStatus, loginIsAuthenticated, resetPassword } from '../../slices/authSlice'
+import { clearError, clearPasswordReseted, loginAuthError, loginAuthStatus, loginIsAuthenticated, passwordResetted, resetPassword } from '../../slices/authSlice'
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner'
@@ -15,6 +15,7 @@ const ResetPassword = () => {
     const LoginIsAuthenticated = useSelector(loginIsAuthenticated);
     const LoginAuthStatus = useSelector(loginAuthStatus);
     const LoginAuthError = useSelector(loginAuthError);
+    const PasswordResetted = useSelector(passwordResetted)
     const { enqueueSnackbar } = useSnackbar();
 
     const [show1, setShow1] = useState(false)
@@ -33,7 +34,7 @@ const ResetPassword = () => {
 
     const navigate = useNavigate()
     useEffect(() => {
-        if (LoginIsAuthenticated) {
+        if (PasswordResetted) {
             enqueueSnackbar("Password Reset Successfully", {
                 variant: 'success',
                 anchorOrigin: {
@@ -41,6 +42,7 @@ const ResetPassword = () => {
                   horizontal: 'center',
                 }
               })
+              dispatch(clearPasswordReseted())
             navigate('/')
             return
         }
