@@ -6,6 +6,8 @@ import { MDBDataTable } from 'mdbreact';
 import { IoIosAddCircle } from "react-icons/io";
 import { useSnackbar } from 'notistack';
 import { Row, Col, Button } from 'react-bootstrap';
+import addImage from '../../assets/add-image.png'
+import Modal from 'react-bootstrap/Modal';
 
 const Categories = () => {
     const categories = useSelector(CategoriesData);
@@ -14,12 +16,17 @@ const Categories = () => {
     const isCreated = useSelector(IsCreated);
     const isUpdated = useSelector(IsUpdated);
     const isDeleted = useSelector(IsDeleted);
+    const [showModal, setShowModal] = React.useState(false);
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [newCategory, setNewCategory] = useState('');
-    const [editingCategoryId, setEditingCategoryId] = useState(null); 
+    const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [updateValue, setUpdateValue] = useState('')
+
+
+    const [avatar, setAvatar] = useState('');
+    const [avatarPreview, setAvatarPreview] = useState(addImage);
 
     // Effect to handle category creation status and errors
     useEffect(() => {
@@ -50,36 +57,49 @@ const Categories = () => {
 
     }, [dispatch, error, enqueueSnackbar, isCreated, isUpdated, isDeleted]);
 
-    const handleCategoryAdd = (e) => {
+    const handleCategoryAdd = async (e) => {
         e.preventDefault();
-        if (newCategory.trim() !== '') {
-            dispatch(createCategory(newCategory.trim()));
-            setNewCategory('');
-        }
+        let formData = new FormData()
+        formData.append('title', newCategory)
+        formData.append('image', avatar)
+        await dispatch(createCategory(formData));
+        setNewCategory('');
+        setAvatar('')
+        setAvatarPreview(addImage)
+        setShowModal(false)
     };
 
     const handleEdit = (categoryId) => {
-        setEditingCategoryId(categoryId); 
-        const Value = categories.find(cat => cat._id === categoryId)?.title;
-        setUpdateValue(Value)
+        setEditingCategoryId(categoryId);
+        const Value = categories.find(cat => cat._id === categoryId);
+        setNewCategory(Value?.title)
+        setAvatarPreview(Value?.image)
     };
 
-    const handleUpdate = (categoryId) => {
-        console.log(updateValue)
-            dispatch(updateCategory({ id: categoryId, title: updateValue }));
-            setEditingCategoryId(null); // Exit edit mode after update
+    const handleUpdate = async (categoryId) => {
+        let formData = new FormData()
+        formData.append('title', newCategory)
+        // Check if avatar is not empty before appending to formData
+        if (avatar) {
+            formData.append('image', avatar);
+        } await dispatch(updateCategory({ id: categoryId, formData }));
+        setEditingCategoryId(null); // Exit edit mode after update
     };
 
-    // const handleInputChange = (e, categoryId) => {
-    //     // Update local state with the new category name
-    //     const updatedValue = e.target.value;
-    //     const updatedCategories = categories.map(cat =>
-    //         cat._id === categoryId ? { ...cat, updatedTitle: updatedValue } : cat
-    //     );
-    //     // No need to dispatch an action here if using local state for input value
-    // };
+    const onChangeFunc = (e) => {
+        if (e.target.name === "avatar") {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setAvatarPreview(reader.result);
+                    setAvatar(e.target.files[0]);
+                }
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    }
 
-    const handleDelete =(id) =>{
+    const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete this category?')) {
             dispatch(deleteCategory(id));
         }
@@ -88,21 +108,35 @@ const Categories = () => {
     const setCategories = () => {
         const data = {
             columns: [
-                { label: 'ID', field: 'id', sort: 'asc' },
+                { label: 'Image', field: 'image', sort: 'asc' },
                 { label: 'Categories', field: 'name', sort: 'asc' },
                 { label: 'Actions', field: 'actions', sort: 'asc' },
             ],
             rows: [],
         };
 
-        categories.forEach((cat) => {
+        categories.forEach((cat, index) => {
             data.rows.push({
-                id: cat._id,
+                image: editingCategoryId === cat._id ? (
+                    <div className="file-upload-container d-flex align-items-center justify-content-center">
+                        <input type="file" name="avatar" id="avatarInput" onChange={onChangeFunc} style={{ display: 'none' }} />
+                        <label htmlFor="avatarInput" className="label">
+                            <figure className="personal-figure">
+                                <img src={avatarPreview} width="80%" className="personal-avatar" alt="avatar" />
+                            </figure>
+                            {/* <div className="d-flex align-items-center justify-content-center">
+                                <button onClick={() => setAvatarPreview(addImage)} className='mt-2 btn btn-outline-danger d-flex' type="button"><FaTrashAlt fontSize="1rem"/></button>
+                            </div> */}
+                        </label>
+                    </div>
+                ) : (
+                    <img src={cat?.image} width='50' />
+                ),
                 name: editingCategoryId === cat._id ? (
                     <input
                         type="text"
-                        value={updateValue} // Bind to updatedTitle when editing
-                        onChange={(e) => setUpdateValue(e.target.value)}
+                        value={newCategory} // Bind to updatedTitle when editing
+                        onChange={(e) => setNewCategory(e.target.value)}
                         className="form-control"
                     />
                 ) : (
@@ -117,10 +151,10 @@ const Categories = () => {
                             Update
                         </button>
                     ) : (
-                       <> 
-                       <button  onClick={() => handleEdit(cat._id)} className="btn btn-primary"> <FaEdit />  </button>
-                        <button onClick={() => handleDelete(cat._id)} className='btn btn-danger py-1 px-2 ml-2'><FaTrashAlt /></button>
-                        </> 
+                        <>
+                            <button onClick={() => handleEdit(cat._id)} className="btn btn-primary"> <FaEdit />  </button>
+                            <button onClick={() => handleDelete(cat._id)} className='btn btn-danger py-1 px-2 ml-2'><FaTrashAlt /></button>
+                        </>
                     )
                 ),
             });
@@ -136,37 +170,20 @@ const Categories = () => {
                     <div className="loader"></div>
                 </div>
             ) : status === 'succeeded' && categories.length === 0 ? (
-             <>   <h1>No Categories Placed</h1>
-               <Row className='w-100 mb-3'>
-                        <Col xs={10} sm={10} md={10} lg={10}>
-                            <input className='form-control' type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
-                        </Col>
-                        <Col xs={2} sm={2} md={2} lg={2}>
-                            <Button type="button" variant="primary" onClick={handleCategoryAdd}>
-                                {window.innerWidth < 800 ? '' : 'ADD '}
-                                <IoIosAddCircle fontSize='1.5rem' />
-                            </Button>
-                        </Col>
-                    </Row>
-                 </> 
+                <>
+                    <h1>No Categories Placed</h1>
+                    <Button onClick={() => setShowModal(true)}>Add</Button>
+                </>
             ) : (
                 <>
                     <Row className="mt-4">
-                        <Col>
+                        <Col xs={6}>
                             <h2>All Categories</h2>
                         </Col>
-                    </Row>
-                    <Row className='w-100 mb-3'>
-                        <Col xs={10} sm={10} md={10} lg={10}>
-                            <input className='form-control' type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
-                        </Col>
-                        <Col xs={2} sm={2} md={2} lg={2}>
-                            <Button type="button" variant="primary" onClick={handleCategoryAdd}>
-                                {window.innerWidth < 800 ? '' : 'ADD '}
-                                <IoIosAddCircle fontSize='1.5rem' />
-                            </Button>
+                        <Col xs={6}>   <Button onClick={() => setShowModal(true)}>Add</Button>
                         </Col>
                     </Row>
+
                     <Row>
                         <Col>
                             <div className="table-responsive">
@@ -184,6 +201,49 @@ const Categories = () => {
                     </Row>
                 </>
             )}
+
+            <Modal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Carousel
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row className='w-100 mb-3'>
+                        <form onSubmit={handleCategoryAdd}>
+                            <div className="file-upload-container d-flex align-items-center justify-content-center">
+                                <input type="file" name="avatar" id="avatarInput" onChange={onChangeFunc} style={{ display: 'none' }} />
+                                <label htmlFor="avatarInput" className="label">
+
+                                    <figure className="personal-figure">
+                                        <img src={avatarPreview} width="100%" height="200px" className="personal-avatar" alt="avatar" />
+                                    </figure>
+                                    <div className="d-flex align-items-center justify-content-center">
+                                        <button onClick={() => setAvatarPreview(addImage)} className='mt-2 btn btn-outline-danger d-flex' type="button">Remove</button>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <label >Category Name</label>
+                            <input className='form-control' type="text" placeholder='Type category name' value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
+
+                            <Button type="submit" variant="primary" className='w-100 mt-5'>
+                                Add Category
+                                <IoIosAddCircle fontSize='1.5rem' />
+                            </Button>
+
+                        </form>
+                    </Row>
+                </Modal.Body>
+
+            </Modal>
+
         </div>
     );
 };

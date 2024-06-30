@@ -158,9 +158,9 @@ const Header = () => {
     </Container >
     </Navbar >
 
-      <Navbar expand="lg" className={`mb-3 navbar ${(isHome || isSearch) ? '' : 'd-none'} `} style={{ background: 'white', position: 'sticky', top: '0', zIndex: '10', transition: 'box-shadow 0.3s' }}>
+      <Navbar expand="lg" className={`pb-3 navbar ${(isHome || isSearch) ? '' : 'd-none'} `} style={{ background: '#FCFCFC', position: 'sticky', top: '0', zIndex: '10', transition: 'box-shadow 0.3s' }}>
         <Container className={`d-flex flex-column ${showShadow ? 'shadow' : ''}`}>
-          <Row className='w-100 align-items-center justify-content-center mt-2'>
+          <Row className='w-100 align-items-center justify-content-center '>
             {(isSearch &&  windowWidth < 990) && <Col lg={2} xs={2}>
               <Button variant="btn btn-primary mx-2" onClick={handleSidebarShow}>
                 <FaFilter fontSize='1.2rem' />

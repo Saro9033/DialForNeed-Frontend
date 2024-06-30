@@ -34,7 +34,7 @@ const navigate = useNavigate()
             <div className='container' style={{ minHeight: '100vh' }}>
                 <CheckOutSteps shipping={true} />
                 <div className="row wrapper pb-5">
-                    <div className="col-10 col-lg-5">
+                    <div className="col-10 col-lg-5 p-0">
                         <form className="shadow-lg" onSubmit={submitHandler}>
                             <h1 className="mb-4">Shipping Info</h1>
                             <div className="form-group">

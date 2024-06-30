@@ -28,6 +28,8 @@ import { PiUsersThreeThin, PiUsersThreeFill  } from "react-icons/pi";
 
 import { RiTaskLine, RiTaskFill  } from "react-icons/ri";
 import { RiGitPullRequestLine , RiGitPullRequestFill } from "react-icons/ri";
+import { BiSolidCarousel, BiCarousel  } from "react-icons/bi";
+import { cartItems } from '../../slices/CartSlice';
 
 const BottomMenu = () => {
     const LoginIsAuthenticated = useSelector(loginIsAuthenticated);
@@ -50,7 +52,7 @@ const BottomMenu = () => {
                                 <BottomMenuItems link={'/my-orders'} icon={BsBoxSeam} iconActive={BsBoxSeamFill} title="ORDERS" />
                                 <BottomMenuItems link={'/requests'} icon={RiGitPullRequestLine} iconActive={RiGitPullRequestFill} title="REQUESTS" />
 
-                                <BottomMenuItems link={'/cart'} icon={PiShoppingCartSimpleLight} iconActive={PiShoppingCartSimpleDuotone} title="CART" />
+                                <BottomMenuItems link={'/cart'} icon={PiShoppingCartSimpleLight} iconActive={PiShoppingCartSimpleDuotone}cart={true} title="CART" /> 
                                 <BottomMenuItems link={'/myprofile'} icon={FaRegUserCircle} iconActive={FaUserCircle} title="PROFILE" />
                             </>
                             :
@@ -66,6 +68,8 @@ const BottomMenu = () => {
                                 <BottomMenuItems  isAdmin={true} link={'/admin/brands'} icon={MdOutlineBrandingWatermark} iconActive={MdBrandingWatermark } title="BRANDS" />
                                 <BottomMenuItems isAdmin={true} link={'/admin/employees'} icon={PiUsersThreeThin} iconActive={PiUsersThreeFill } title="EMPLOYEES" />
                                 <BottomMenuItems isAdmin={true} link={'/admin/tasks'} icon={RiTaskLine} iconActive={RiTaskFill } title="TASKS" />
+                                <BottomMenuItems isAdmin={true} link={'/admin/carousels'} icon={BiSolidCarousel} iconActive={BiCarousel } title="CAROUSELS" />
+
                                 </div>
                                 :
                                 <>

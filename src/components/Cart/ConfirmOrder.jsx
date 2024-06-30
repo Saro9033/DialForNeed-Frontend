@@ -1,21 +1,18 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CheckOutSteps from './CheckOutSteps'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadUser, loginAuthUser } from '../../slices/authSlice'
 import { cartItems } from '../../slices/CartSlice'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { SidebarContext } from '../../context/SidebarContext'
 import API from '../../API'
 
 const ConfirmOrder = () => {
-    
-
     const LoginAuthUser = useSelector(loginAuthUser)
     const CartItems = useSelector(cartItems);
-  const navigate = useNavigate()
+    const navigate = useNavigate()
 
     //Shipping price
-
     const calculateSubtotal = () => {
         let grandTotal = 0;
         const itemsDetail = CartItems.map(item => {
@@ -25,7 +22,7 @@ const ConfirmOrder = () => {
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
-                image:item.image,
+                image: item.image,
                 itemTotal
             };
         });
@@ -41,18 +38,26 @@ const ConfirmOrder = () => {
         }).format(amount);
     };
 
-    const processPayment = () =>{
+    const processPayment = () => {
         const data = {
-            itemsPrice:formatCurrency(calculateSubtotal().grandTotal),
+            itemsPrice: formatCurrency(calculateSubtotal().grandTotal),
             totalPrice: formatCurrency(calculateSubtotal().grandTotal)
         }
         sessionStorage.setItem('orderInfo', JSON.stringify(data))
-       navigate('/payment')
+        navigate('/payment')
     }
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <>
-
-            <div className='container' style={{ marginTop: '130px', minHeight: '100vh' }}>
+            <div className='container' style={{ minHeight: '100vh' }}>
                 <CheckOutSteps confirmOrder={true} />
                 <div className="row mt-5 d-flex justify-content-between mb-5">
                     <div className="col-12 col-lg-8 mb-4 order-confirm">
@@ -82,24 +87,35 @@ const ConfirmOrder = () => {
                             <hr />
                         </div>
 
-                    <div className='row m-0 mb-4'>
-                        <div id="order_summary">
-                            <h4>Your Cart Items</h4>
-                            <hr />
-                            {calculateSubtotal().itemsDetail.map((item, index) => (
-                                <div key={index} className="m-3 d-flex justify-content-between align-items-center">
-                                    <img src={item.image} alt={item.image} width="100" className='border rounded-3' style={{objectFit:'cover'}} />
-                                    <p className='m-0'>{`${item.name} (${item.quantity}x)`}</p>
-                                    <p className='m-0'>{formatCurrency(item.itemTotal)}</p>
+                        <div className='row m-0 mb-4'>
+                            <div id="order_summary" >
+                                <h4>Your Cart Items</h4>
+                                <hr />
+                                {calculateSubtotal().itemsDetail.map((item, index) => (
+                                    // <div key={index} className="m-3 d-flex justify-content-between align-items-center">
+                                    //     <img src={item.image} alt={item.image} width="100" className='border rounded-3' style={{objectFit:'cover'}} />
+                                    //     <p className='m-0'>{`${item.name} (${item.quantity}x)`}</p>
+                                    //     <p className='m-0'>{formatCurrency(item.itemTotal)}</p>
+                                    // </div>
+                                    <div className="my-4 p-2 bg-white rounded-3 shadow d-flex m-0 w-100 align-items-center">
+                                        <img src={item.image} alt={item.name} style={{ objectFit: 'cover' }} height="auto" width={windowWidth < 990 ? '30%' : '15%'} />
+
+                                        <div className={`${windowWidth < 990 ? 'pl-2' : 'pl-3'} w-100 d-flex flex-column`}>
+                                            <div style={{ textDecoration: 'none', color: 'unset' }} className='mt-2' to={`/product/${item._id}`}> {item.name}</div>
+
+                                            <div className='d-flex align-items-center justify-content-between'>
+                                                <p className='m-0'>{` (${item.quantity}x)`}</p>
+                                                <p id="card_item_price" style={{ color: 'black', fontSize: '15px' }} className='m-0'>{formatCurrency(item.price)}</p>
+                                            </div>                                                                               </div>
+                                    </div>
+                                ))}
+                                <hr />
+                                <div className="m-3 my-2 d-flex justify-content-between align-items-center">
+                                    <p className='m-0 order-summary-values'>Total:</p>
+                                    <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal)}</p>
                                 </div>
-                            ))}
-                            <hr />
-                            <div className="m-3 d-flex justify-content-between align-items-center">
-                                <p className='m-0 order-summary-values'>Total:</p>
-                                <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal)}</p>
-                            </div>  
+                            </div>
                         </div>
-                    </div>
 
                     </div>
                     <div className="col-12 col-lg-4">
@@ -110,7 +126,7 @@ const ConfirmOrder = () => {
                             <hr />
                             <div className="d-flex justify-content-between align-items-center">
                                 <p className='m-0 order-summary-values'>Total:</p>
-                                <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal )}</p>
+                                <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal)}</p>
                             </div>                            <hr />
                             <button id="checkout_btn" onClick={processPayment} className="btn btn-primary btn-block">Proceed to Payment</button>
                         </div>

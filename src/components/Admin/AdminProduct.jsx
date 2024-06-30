@@ -1317,7 +1317,6 @@ console.log(Categories)
                                     {/* {updateImagesPreview.length > 0 &&
                                         <span className='mr-2 btn btn-danger' style={{ cursor: 'pointer' }} onClick={clearedImagesHandler}>Delete All&nbsp; <FaTrashAlt fontSize="1.5rem" /></span>} */}
 
-
                                 </div>
                             </div>
 

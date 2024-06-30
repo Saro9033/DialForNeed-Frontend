@@ -8,6 +8,7 @@ import orderReducer from './slices/orderSlice'
 import AdminUserReducer from './slices/AdminUserSlice'
 import EmployeeReducer from './slices/EmployeeSlice'
 import TaskReducer from './slices/TaskSlice'
+import CarouselReducer from './slices/CarouselSlice'
 
 
 export const Store = configureStore({
@@ -26,7 +27,7 @@ export const Store = configureStore({
         order: orderReducer,
         users:AdminUserReducer,
         employee:EmployeeReducer,
-        task:TaskReducer
-
+        task:TaskReducer,
+        carousel:CarouselReducer
     }
 })

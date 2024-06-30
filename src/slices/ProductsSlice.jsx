@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../API";
 
 //get all products
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({ keyword, price, categoryId, brandId, type, ratings }) => {
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({ keyword, price, categoryId, brandId, type, ratings, isOnlyCategory }) => {
   try {
     let link = '/products';
     if (keyword !== null && keyword !== undefined) {
@@ -12,7 +12,8 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({
       link += `&price[gte]=${price[0]}&price[lte]=${price[1]}`
     }
     if (categoryId !== null && categoryId !== undefined) {
-      link += `&categoryId=${categoryId}`
+   
+      link += `${isOnlyCategory ? '?':'&'}categoryId=${categoryId}`
     }
     if (brandId !== null && brandId !== undefined) {
       link += `&brandId=${brandId}`

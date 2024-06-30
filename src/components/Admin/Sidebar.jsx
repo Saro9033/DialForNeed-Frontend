@@ -9,6 +9,7 @@ import {  MdBrandingWatermark  } from "react-icons/md";
 import { PiUsersThreeFill  } from "react-icons/pi";
 
 import {  RiTaskFill  } from "react-icons/ri";
+import { BiSolidCarousel } from "react-icons/bi";
 
 
 const Sidebar = () => {
@@ -47,6 +48,9 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link to="/admin/tasks" className='d-flex align-items-center '><RiTaskFill/>&nbsp;Tasks</Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/carousels" className='d-flex align-items-center '><BiSolidCarousel/>&nbsp;Carousels</Link>
                     </li>
                 </ul>
             </nav>

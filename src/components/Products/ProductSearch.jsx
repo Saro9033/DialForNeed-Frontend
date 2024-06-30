@@ -8,12 +8,14 @@ import Product from '../Products/Product';
 import { useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { SidebarContext } from '../../context/SidebarContext';
+import { useSnackbar } from 'notistack';
 
 const ProductSearch = () => {
   const data = useSelector(Products);
   const status = useSelector(productStatus);
   const error = useSelector(productError);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const {selectedRatings, selectedType, setKeywordQuery, selectedBrandId, price, priceChanged, selectedCategoryId } = useContext(SidebarContext);
 

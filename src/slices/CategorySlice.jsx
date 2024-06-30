@@ -12,9 +12,13 @@ export const fetchCategory = createAsyncThunk('category/fetchCategory', async ()
 });
 
 //Create category
-export const createCategory = createAsyncThunk('category/createCategory', async (title) => {
+export const createCategory = createAsyncThunk('category/createCategory', async (formData) => {
     try {
-        const response = await API.post('/admin/category', {title});
+        const response = await API.post('/admin/category', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         console.log(response.data)
         return response.data;
     } catch (error) {
@@ -23,9 +27,13 @@ export const createCategory = createAsyncThunk('category/createCategory', async 
 });
 
 // updateCategory thunk action creator
-export const updateCategory = createAsyncThunk('category/updateCategory', async ({ id, title }) => {
+export const updateCategory = createAsyncThunk('category/updateCategory', async ({ id, formData }) => {
     try {
-        const response = await API.put(`/admin/category/${id}`, { title });
+        const response = await API.put(`/admin/category/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         return response.data; // Assuming response.data contains updated category information
     } catch (error) {
         return Promise.reject(error.response?.data?.message || 'Failed to update category');

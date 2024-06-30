@@ -169,8 +169,7 @@ const ProductDetails = () => {
     const renderSuccess = (data) => (
         <>
             {product && (
-                <Container className="my-5" style={{ minHeight: '100vh' }}>
-                    <Row className="justify-content-between mt-5 pt-5">
+                    <Row className="justify-content-between pt-3 ">
                         <Col xs={12} lg={5} className="text-center d-flex align-items-start justify-content-center">
                             <Carousel pause="hover">
                                 {product.images.map((image, index) => (
@@ -179,14 +178,14 @@ const ProductDetails = () => {
                                             src={image.image}
                                             alt={`image-${index}`}
                                             className="d-block w-100"
-                                            style={{ width: '100%', height: '400px' }}
+                                            style={{ width: '100%', height:window.innerWidth<990 ? '200px': '400px' }}
                                         />
                                     </Carousel.Item>
                                 ))}
                             </Carousel>
                         </Col>
 
-                        <Col xs={12} lg={7} className="mt-5 mt-lg-0"  >
+                        <Col xs={12} lg={7} className={`pt-5  mt-lg-0 ${window.innerWidth<990 ? 'px-4':''}`}  >
                             <h3>{product.name}</h3>
                            {product.reviews.length > 0 && <div className="d-flex align-items-center">
                                 &nbsp;<StarRating rating={product.ratings} />
@@ -275,15 +274,15 @@ const ProductDetails = () => {
                             </Modal>
                         </Col>
                     </Row>
-                </Container>)
+                )
             }</>
     );
 
     return (
 
         <Fragment>
-            <MetaData title={product ? product.name : "Product Page"} />
-            <div className="mt-5">
+            <MetaData title={product ? product.name : "Product Details"} />
+            <div className="pt-1">
                 {renderContent(status, product, error, renderSuccess)}
             </div>
 

@@ -137,7 +137,7 @@ useEffect(()=>{
   }
 },[])
   return (
-    <div className='container' style={{ marginTop: '130px', minHeight: '100vh' }}>
+    <div className='container' style={{  minHeight: '100vh' }}>
       <CheckOutSteps payment={true} />
       <div className='d-flex align-items-center justify-content-center '>
         <button className='btn btn-primary' onClick={handlePayment}>Pay with Razorpay</button>
