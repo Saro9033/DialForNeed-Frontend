@@ -163,6 +163,12 @@ const Categories = () => {
         return data;
     };
 
+    const handleClearAndShow = () =>{
+        setNewCategory('')
+        setAvatar(null)
+        setAvatarPreview(addImage)
+        setShowModal(true)
+    }
     return (
         <div>
             {status === 'loading' ? (
@@ -172,7 +178,7 @@ const Categories = () => {
             ) : status === 'succeeded' && categories.length === 0 ? (
                 <>
                     <h1>No Categories Placed</h1>
-                    <Button onClick={() => setShowModal(true)}>Add</Button>
+                    <Button onClick={handleClearAndShow}>Add</Button>
                 </>
             ) : (
                 <>
@@ -180,7 +186,7 @@ const Categories = () => {
                         <Col xs={6}>
                             <h2>All Categories</h2>
                         </Col>
-                        <Col xs={6}>   <Button onClick={() => setShowModal(true)}>Add</Button>
+                        <Col xs={6}>   <Button onClick={handleClearAndShow}>Add</Button>
                         </Col>
                     </Row>
 
@@ -233,7 +239,7 @@ const Categories = () => {
                             <label >Category Name</label>
                             <input className='form-control' type="text" placeholder='Type category name' value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
 
-                            <Button type="submit" variant="primary" className='w-100 mt-5'>
+                            <Button disabled={status==="loading"} type="submit" variant="primary" className='w-100 mt-5'>
                                 Add Category
                                 <IoIosAddCircle fontSize='1.5rem' />
                             </Button>

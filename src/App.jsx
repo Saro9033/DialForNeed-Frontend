@@ -16,6 +16,7 @@ import Error from './components/Error';
 import Admin from './components/Admin/Admin';
 import Carousel from './components/Admin/Carousel';
 import CategorySearch from './components/Products/CategorySearch';
+import CategoriePages from './components/CategoriePages';
 
 // Lazy loaded components
 const ProductDetails = React.lazy(() => import('./components/Products/ProductDetails'));
@@ -77,9 +78,11 @@ function App() {
       <Suspense  fallback={<div className="d-flex align-items-center justify-content-center"><div className="loader"></div></div>}>
 
         {!isAdminRoute && !isLoginRoute && (
-          <div style={{backgroundColor:'#FCFCFC',padding:window.innerWidth < 990 ? '0px 25px' : '0px 60px'}}>
+          <div style={{backgroundColor:'#FCFCFC',padding:window.innerWidth < 990 ? '0px 20px' : '0px 60px'}}>
             <Routes>
               <Route path='/' element={<Home />} />
+              <Route path='/categories' element={<CategoriePages />} />
+
               <Route path='/product/:id' element={<ProductDetails />} />
               <Route path='/products/search/:keyword' element={<ProductSearch />} />
               <Route path='/cateogry-products/:id' element={<CategorySearch />} />

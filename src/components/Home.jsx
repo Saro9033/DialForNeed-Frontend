@@ -65,7 +65,7 @@ console.log(Carousels)
         <Fragment >
             <MetaData title="Home" />
             <Container id="products" className="pt-2" style={{ minHeight: '100vh', backgroundColor: "#FCFCFC" }}>
-                {Carousels && Carousels.length > 0 ? (
+                {Carousels && Carousels.length > 2 ? (
                     <Slider {...settings}>
                         {Carousels.map((carousel, index) => (
                             <Link to={carousel.link} key={carousel._id} className={`mr-3 w-100 `}>
@@ -81,15 +81,15 @@ console.log(Carousels)
                 {Categories && Categories.length > 0 ?
                     <>    <div className='d-flex align-items-center justify-content-between'>
                         <span>Category </span>
-                        <Link style={{ color: 'unset', textDecoration: 'none' }}><IoIosArrowForward /></Link>
+                        <Link to={`/categories`} style={{ color: 'unset', textDecoration: 'none' }}><IoIosArrowForward /></Link>
                     </div>
                         <Row className={`d-flex flex-wrap ${windowWidth<990 ? 'justify-content-start' : 'justify-content-between' }`}>
-                            {Categories.map(category => (
+                            {Categories.slice(0,8).map(category => (
                                <Col key={category._id} xs={3} md={2} lg={2} xl={1} className="mt-2 d-flex align-items-center justify-content-center flex-column"> 
                                <Link to={`/cateogry-products/${category?._id}`}  style={{textDecoration:'none', color:'none'}}  className='border rounded-circle p-2 d-flex '>
                                     <img width="40" height="40" src={category?.image} alt={category?.image}  />
                                 </Link>
-                                <span className="pt-2 text-center"style={{fontSize:'14px'}}>{category?.title.slice(0,10)}</span>
+                                <span className="pt-2 text-center"style={{fontSize:'14px'}}>{category?.title}</span>
                                 </Col>
                             ))
                             }

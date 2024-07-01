@@ -64,7 +64,7 @@ const Carousel = () => {
 
         carousels.forEach((cat) => {
             data.rows.push({
-                carousel: <img src={cat?.image} width="100" alt="" srcset="" />,
+                carousel: <img src={cat?.image} width="100"  />,
                 actions:
                     <>
                          <button onClick={() => handleView(cat._id)} className='btn btn-primary py-1 px-2 ml-2'><FaRegEye/></button>
