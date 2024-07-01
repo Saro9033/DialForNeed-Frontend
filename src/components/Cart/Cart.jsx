@@ -61,7 +61,7 @@ const Cart = () => {
                         <img width='240px' src={cartEmpty} alt="" />
                         <h5>Your cart is empty</h5>
                         <p className='text-secondary' style={{ fontSize: '12px' }}>You can go to the home page to view more Products</p>
-                        <Link to='/' className='btn border-0 text-white' style={{ background: 'rgb(252,128,25)', fontWeight: '500' }}>HOME PAGE</Link>
+                        <Link to='/' className='btn border-0 text-white' style={{ background: '#1BA786', fontWeight: '500' }}>HOME PAGE</Link>
                     </div>
                 </>
                 :

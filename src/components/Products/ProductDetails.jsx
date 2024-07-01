@@ -132,39 +132,39 @@ const ProductDetails = () => {
     }
 
     const LoginIsAuthenticated = useSelector(loginIsAuthenticated)
-    const UserOrders = useSelector(userOrders)
+  //  const UserOrders = useSelector(userOrders)
 
-    useEffect(() => {
-        dispatch(getUserOrder());
-        return () => {
-            dispatch(ClearOrder());
-        };
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getUserOrder());
+    //     return () => {
+    //         dispatch(ClearOrder());
+    //     };
+    // }, [dispatch]);
 
     // Efficiently compute product IDs once user orders are fetched
-    const productIdsSet = useMemo(() => {
-        const productIds = new Set();
-        for (const order of UserOrders) {
-            for (const item of order.orderItems) {
-                // Add product ID to set only if status is "success"
-                if (item.productId?._id === id && (item.status === "success" || item.status === "Success")) {
-                    productIds.add(item.productId._id);
-                }
-            }
-        }
-        return productIds;
-    }, [UserOrders, id]);
+    // const productIdsSet = useMemo(() => {
+    //     const productIds = new Set();
+    //     for (const order of UserOrders) {
+    //         for (const item of order.orderItems) {
+    //             // Add product ID to set only if status is "success"
+    //             if (item.productId?._id === id && (item.status === "success" || item.status === "Success")) {
+    //                 productIds.add(item.productId._id);
+    //             }
+    //         }
+    //     }
+    //     return productIds;
+    // }, [UserOrders, id]);
 
     // Check if the product exists and status is "success"
-    const productExistsAndSuccess = useMemo(() => productIdsSet.has(id), [productIdsSet, id]);
+   // const productExistsAndSuccess = useMemo(() => productIdsSet.has(id), [productIdsSet, id]);
 
-    useEffect(() => {
-        if (UserOrders.length > 0) {
-            console.log(productExistsAndSuccess);
-        }
-    }, [UserOrders, productExistsAndSuccess]);
+    // useEffect(() => {
+    //     if (UserOrders.length > 0) {
+    //         console.log(productExistsAndSuccess);
+    //     }
+    // }, [UserOrders, productExistsAndSuccess]);
 
-    console.log(productExistsAndSuccess )
+    // console.log(productExistsAndSuccess )
 
     const renderSuccess = (data) => (
         <>
@@ -235,7 +235,7 @@ const ProductDetails = () => {
                             </p>
                             <hr />
 
-                            {LoginIsAuthenticated ? <Button disabled={!productExistsAndSuccess} id="review_btn" type="button" className="mt-4" onClick={handleShow}>
+                            {LoginIsAuthenticated ? <Button  id="review_btn" type="button" className="mt-4" onClick={handleShow}>
                                 Submit Your Review
                             </Button> : <div className='alert alert-danger mt-5'>Login to Post Review</div>
                             }

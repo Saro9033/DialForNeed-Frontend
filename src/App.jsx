@@ -72,11 +72,12 @@ function App() {
     <>
       <MetaData title="" />
       <Header />
+      <div style={{minHeight:'100vh'}}> 
+
       <Suspense  fallback={<div className="d-flex align-items-center justify-content-center"><div className="loader"></div></div>}>
-       <div style={{minHeight:'100vh'}}> 
 
         {!isAdminRoute && !isLoginRoute && (
-          <div style={{backgroundColor:'#FCFCFC',padding:'0px 15px', minHeight:'100vh'}}>
+          <div style={{backgroundColor:'#FCFCFC',padding:window.innerWidth < 990 ? '0px 25px' : '0px 60px'}}>
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/product/:id' element={<ProductDetails />} />
@@ -92,7 +93,7 @@ function App() {
               <Route path='/payment-success' element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
               <Route path='/my-orders' element={<ProtectedRoute><UserOrders /></ProtectedRoute>} />
               <Route path='/order/:id' element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
-              <Route path='/my-tasks' element={<ProtectedRoute isEmployee={true}><EmpTasks /></ProtectedRoute>} />
+              <Route path='/my-tasks' element={<Container> <ProtectedRoute isEmployee={true}><EmpTasks /></ProtectedRoute></Container>} />
               <Route path='/taskDetails/:id' element={<ProtectedRoute isEmployee={true}><TaskDetail /></ProtectedRoute>} />
             </Routes>
           </div>
@@ -121,11 +122,11 @@ function App() {
             </Routes>
         
         )}
-
-    
-        </div>
+        
       </Suspense>
+      </div>
       <BottomMenu />
+
       <Footer />
     </>
   );

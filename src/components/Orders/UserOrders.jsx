@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import MetaData from '../Layouts/MetaData';
 import { Container, Row, Col } from 'react-bootstrap';
-import { MDBDataTable } from 'mdbreact';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserOrder, orderStatus, userOrders } from '../../slices/orderSlice';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FaRegEye } from 'react-icons/fa';
 
 const UserOrders = () => {
-    const UserOrdersDta = useSelector(userOrders);
+    const userOrdersData = useSelector(userOrders);
     const dispatch = useDispatch();
-    const OrderStatus = useSelector(orderStatus)
+    const Status = useSelector(orderStatus);
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getUserOrder());
@@ -25,81 +25,48 @@ const UserOrders = () => {
         }).format(price);
     };
 
-    const setOrders = () => {
-        const data = {
-            columns: [
-                {
-                    label: "Order ID",
-                    field: "id",
-                    sort: "asc"
-                },
-                {
-                    label: "Number of Items",
-                    field: "numOfItems",
-                    sort: "asc"
-                },
-                {
-                    label: "Amount",
-                    field: "amount",
-                    sort: "asc"
-                },
-                {
-                    label: "Ordered on",
-                    field: "date",
-                    sort: "asc"
-                },
-                {
-                    label: "Actions",
-                    field: "actions",
-                    sort: "asc"
-                }
-            ],
-            rows: []
-        };
-        UserOrdersDta.forEach(userOrder => {
-            data.rows.push({
-                id: userOrder._id,
-                numOfItems: userOrder.orderItems.length,
-                amount: formatPrice(userOrder.totalPrice),
-                date: new Date(userOrder.createdAt).toLocaleDateString(),
-                actions: <Link to={`/order/${userOrder._id}`} className='btn btn-primary'><FaRegEye /></Link>
-            });
-        });
-        return data;
-    };
-
     return (
         <>
             <MetaData title="My Orders" />
-            <Container style={{ minHeight: '100vh'}}>
-                <> {OrderStatus === "loading"
-                    ?
-                    <div className="d-flex align-items-start justify-content-center"><div className="loader"></div> </div>
-                    :
-                   ( OrderStatus === "succeeded" && UserOrdersDta.length==0) ?
-                   <h1>No Orders Placed</h1> :
-                    <>  <Row className="mt-4">
+            <Container style={{ minHeight: '100vh' }}>
+                {Status === "loading" ? (
+                    <div className="d-flex align-items-start justify-content-center">
+                        <div className="loader"></div>
+                    </div>
+                ) : Status === "succeeded" && userOrdersData.length === 0 ? (
+                    <h1>No Orders Placed</h1>
+                ) : (
+                    <Row className="pt-4">
                         <Col>
                             <h2>My Orders</h2>
                         </Col>
                     </Row>
-                        <Row>
-                            <Col>
-                                <div className="table-responsive">
-                                    <MDBDataTable
-                                        className="px-3"
-                                        bordered
-                                        striped
-                                        hover
-                                        searching={false}
-
-                                        responsive // This makes the table responsive
-                                        data={setOrders()}
-                                    />
-                                </div>
-                            </Col>
-                        </Row></>
-                }  </>
+                )}
+                
+                {userOrdersData.length > 0 && (
+                    <div className="table-responsive pt-4">
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ORDER ID</th>
+                                    <th>DATE</th>
+                                    <th>ITEMS</th>
+                                    <th>AMOUNT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {userOrdersData.map(item => (
+                                       <tr key={item._id} onClick={()=>navigate(`/order/${item._id}`) }>
+                                           <td>{item._id}</td>
+                                           <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                                           <td>{item.orderItems.length}</td>
+                                           <td>{formatPrice(item.totalPrice)}</td>
+                                   </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </Container>
         </>
     );

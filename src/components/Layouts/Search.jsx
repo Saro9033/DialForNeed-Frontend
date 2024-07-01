@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Form, FormControl, Button, InputGroup  } from 'react-bootstrap';
+import { Form, FormControl, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {SidebarContext} from '../../context/SidebarContext'
+import { SidebarContext } from '../../context/SidebarContext'
+import { IoSearchOutline } from "react-icons/io5";
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -55,23 +56,35 @@ const Search = () => {
 
   return (
     <Form inline className="d-flex" onSubmit={handleSubmit}>
-    
-       <InputGroup size="md" className=" w-100 mx-0 ">
-      
+      {/* <InputGroup size="md" className=" w-100 mx-0 ">
         <Form.Control
           aria-label="Small"
           value={query}
           type="text"
-          className=" px-3 rounded-5 custom-input"
-          style={{transition:'all .5s ease-in-out',boxShadow: 'none' ,outline:'none',marginRight:window.innerWidth <990?'' : '10px', padding:'20px 0px' }}
-          placeholder={ placeholderTexts[placeholderIndex]} 
+          className="px-3 rounded-5 custom-input-search"
+          style={{ transition: 'all .5s ease-in-out', boxShadow: 'none', outline: 'none', marginRight: window.innerWidth < 990 ? '' : '10px', padding: '20px 0px' }}
+          placeholder={placeholderTexts[placeholderIndex]}
           onChange={(e) => setQuery(e.target.value)}
           aria-describedby="inputGroup-sizing-sm"
         />
-      </InputGroup>
+      </InputGroup> */}
+
+      <div class="form-group has-search mb-0 w-100" style={{marginRight: window.innerWidth < 990 ? '' : '10px'}}>
+        <span class="fa fa-search form-control-feedback"></span>
+        <input
+          aria-label="Small"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{ border:'1px solid black',transition: 'all .5s ease-in-out', boxShadow: 'none', outline: 'none', padding: '5px  0px 5px 30px ' }}
+          placeholder={placeholderTexts[placeholderIndex]}
+
+          type="text" className=" rounded-5 custom-input-search w-100" />
+      </div>
+
+
       {window.innerWidth < 990 ? '' : (
-        <Button variant="outline-success" className="rounded-5" type="submit" style={{background:'white', outline:'none', border:'1px solid #1BA786'}}>
-          <i style={{color:'#1BA786'}} className="fa fa-search" aria-hidden="true"></i>
+        <Button variant="outline-success" className="rounded-5" type="submit" style={{ background: 'white', outline: 'none', border: '1px solid #1BA786' }}>
+          <i style={{ color: '#1BA786' }} className="fa fa-search" aria-hidden="true"></i>
         </Button>
       )}
     </Form>

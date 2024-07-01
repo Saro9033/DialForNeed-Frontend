@@ -34,8 +34,8 @@ const navigate = useNavigate()
             <div className='container' style={{ minHeight: '100vh' }}>
                 <CheckOutSteps shipping={true} />
                 <div className="row wrapper pb-5">
-                    <div className="col-10 col-lg-5 p-0">
-                        <form className="shadow-lg" onSubmit={submitHandler}>
+                    <div className="col-12 col-lg-5 p-0">
+                        <form className="" onSubmit={submitHandler}>
                             <h1 className="mb-4">Shipping Info</h1>
                             <div className="form-group">
                                 <label for="address_field">Address</label>
@@ -100,9 +100,9 @@ const navigate = useNavigate()
                             </div>
 
                             <button
-                              style={{background:'#1BA786'}}
+                              style={{background:'#1BA786', border:'0px'}}
                                 type="submit"
-                                className="btn btn-block py-3"
+                                className="btn btn-block mt-2 py-2 rounded-3"
                             >
                                 CONTINUE
                             </button>

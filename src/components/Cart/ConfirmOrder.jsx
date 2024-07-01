@@ -57,74 +57,90 @@ const ConfirmOrder = () => {
 
     return (
         <>
-            <div className='container' style={{ minHeight: '100vh' }}>
+            <div className='container' style={{ minHeight: '100vh', marginBottom: windowWidth > 990 ? ' ' : '90px'}}>
                 <CheckOutSteps confirmOrder={true} />
-                <div className="row mt-5 d-flex justify-content-between mb-5">
+                <div className="row mt-2 d-flex justify-content-between mb-5">
                     <div className="col-12 col-lg-8 mb-4 order-confirm">
-                        <div id="order_summary" class="table-responsive mb-4">
-                            <h4 className="mb-3">Shipping Info</h4>
-                            <hr />
-                            <table className="table">
-                                <tbody>
-                                    <tr>
-                                        <td><b>Name</b></td>
-                                        <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Email</b></td>
-                                        <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Phone Number</b></td>
-                                        <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.phoneNumber}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Address</b></td>
-                                        <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.address}, {LoginAuthUser?.city}, {LoginAuthUser?.country}, {LoginAuthUser?.postalCode}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr />
+                        <div id={windowWidth > 990 ? 'order_summary' : ''} className={`${windowWidth > 990 ? 'table-responsive mb-4' : 'shadow-sm p-3 rounded-3 mb-4'}`}>
+                            {windowWidth > 990 ?
+                                <>  <h5 className="mb-3">Delivery To:</h5>
+                                    {windowWidth > 990 ? <hr /> : ''}
+                                    <table className={windowWidth > 990 ? 'table' : ''}>
+                                        <tbody style={{ background: '#FCFCFC' }}>
+                                            <tr>
+                                                <td><b>Customer Name</b></td>
+                                                <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.name}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Phone Number</b></td>
+                                                <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.phoneNumber}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Address</b></td>
+                                                <td>:&nbsp;&nbsp;&nbsp;&nbsp;{LoginAuthUser?.address}, {LoginAuthUser?.city}, {LoginAuthUser?.country}, {LoginAuthUser?.postalCode}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table> </> :
+
+                                <div>
+                                    <div className='d-flex flex-column'>
+                                        <h6 className=""><b>Delivery To:</b></h6>
+                                        <b>Customer Name</b>
+                                        <span className='mt-2'>{LoginAuthUser?.address}, {LoginAuthUser?.city}, {LoginAuthUser?.country}, {LoginAuthUser?.postalCode}, {LoginAuthUser?.phoneNumber}</span>
+                                    </div>
+
+                                </div>
+
+                            }
+                            {windowWidth > 990 ? <hr /> : ''}
                         </div>
 
                         <div className='row m-0 mb-4'>
-                            <div id="order_summary" >
-                                <h4>Your Cart Items</h4>
-                                <hr />
+                            <div id={windowWidth > 990 ? 'order_summary' : ''} className={`${windowWidth > 990 ? '' : 'shadow-sm p-2 rounded-3 '}`}>
+                                {windowWidth > 990 ? <h5>Your Cart Items</h5> : ''}
+                                {windowWidth > 990 ? <hr /> : ''}
                                 {calculateSubtotal().itemsDetail.map((item, index) => (
                                     // <div key={index} className="m-3 d-flex justify-content-between align-items-center">
                                     //     <img src={item.image} alt={item.image} width="100" className='border rounded-3' style={{objectFit:'cover'}} />
                                     //     <p className='m-0'>{`${item.name} (${item.quantity}x)`}</p>
                                     //     <p className='m-0'>{formatCurrency(item.itemTotal)}</p>
                                     // </div>
-                                    <div className="my-4 p-2 bg-white rounded-3 shadow d-flex m-0 w-100 align-items-center">
-                                        <img src={item.image} alt={item.name} style={{ objectFit: 'cover' }} height="auto" width={windowWidth < 990 ? '30%' : '15%'} />
+                                    <div className="my-2 py-1 bg-white rounded-1 shadow-sm d-flex m-0 w-100 align-items-center">
+                                        <img src={item.image} alt={item.name} className='border' style={{ objectFit: 'cover' }} height={windowWidth < 990 ? '60px' : '90px'} width={windowWidth < 990 ? '150px' : '20%'} />
 
-                                        <div className={`${windowWidth < 990 ? 'pl-2' : 'pl-3'} w-100 d-flex flex-column`}>
-                                            <div style={{ textDecoration: 'none', color: 'unset' }} className='mt-2' to={`/product/${item._id}`}> {item.name}</div>
+                                        <div className={`${windowWidth < 990 ? 'pl-4' : 'pl-3'} w-100 d-flex flex-column`}>
+                                            <div style={{ textDecoration: 'none', color: 'unset' }} className='mt-2' to={`/product/${item._id}`}>
+                                                {windowWidth > 990 ?
+                                                    <h5>{item.name}{` (${item.quantity}x)`} </h5>
+                                                    :
+                                                    <h6>{item.name} {` (${item.quantity}x)`}</h6>
+                                                }
 
-                                            <div className='d-flex align-items-center justify-content-between'>
-                                                <p className='m-0'>{` (${item.quantity}x)`}</p>
-                                                <p id="card_item_price" style={{ color: 'black', fontSize: '15px' }} className='m-0'>{formatCurrency(item.price)}</p>
+                                            </div>
+
+                                            <div className='d-flex '>
+                                                <div id="card_item_price" style={{ color: 'black', fontSize: '15px' }} className='m-0'>
+                                                {windowWidth > 990 ?
+                                                 <h6>  {formatCurrency(item.price)}</h6>
+                                                 :
+                                                 <p className='m-0'>{formatCurrency(item.price)}</p>
+                                                 }
+                                                </div>
                                             </div>                                                                               </div>
                                     </div>
                                 ))}
-                                <hr />
-                                <div className="m-3 my-2 d-flex justify-content-between align-items-center">
-                                    <p className='m-0 order-summary-values'>Total:</p>
-                                    <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal)}</p>
-                                </div>
+                                {windowWidth > 990 ? <hr /> : ''}
                             </div>
                         </div>
 
                     </div>
-                    <div className="col-12 col-lg-4">
+                    <div className=" d-none d-md-block col-12 col-lg-4">
                         <div id="order_summary">
-                            <h4>Order Summary</h4>
+                            {windowWidth > 990 ? <h5>Price Details:</h5> : <h6>Price Details</h6>}
                             <hr />
                             <p>Subtotal:  <span className="order-summary-values">{formatCurrency(calculateSubtotal().grandTotal)}</span></p>
                             <hr />
-                            <div className="d-flex justify-content-between align-items-center">
+                            <div className=" d-flex justify-content-between align-items-center">
                                 <p className='m-0 order-summary-values'>Total:</p>
                                 <p className='m-0  order-summary-values'>{formatCurrency(calculateSubtotal().grandTotal)}</p>
                             </div>                            <hr />
@@ -132,7 +148,13 @@ const ConfirmOrder = () => {
                         </div>
                     </div>
 
-
+                    <div className='d-block fixed-bottom d-md-none border bg-white col-12 pt-2 px-4' style={{zIndex:'0',fontSize:'22px', paddingBottom:'60px'}}>
+                            <div className='d-flex align-items-center justify-content-between' >
+                              <div>  Totals<span>({CartItems.length} items)</span></div> 
+                              <div><b>{formatCurrency(calculateSubtotal().grandTotal)}</b> </div>
+                            </div>
+                            <button id="checkout_btn" onClick={processPayment} className="btn btn-primary mt-2 btn-block">Proceed to Payment</button>
+                        </div>
                 </div>
             </div></>
     )

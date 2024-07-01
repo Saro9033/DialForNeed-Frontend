@@ -80,7 +80,7 @@ const RequestsList = () => {
                             <div style={{cursor:'pointer'}} className='w-100 d-flex align-items-center' onClick={() => handleModalOpen(req)}>
                                 <img src={req.productId?.images[0]?.image} width="50" height="50" style={{ borderRadius: '50%' }} className="border" alt="" />
                                 <div className='d-flex flex-column pl-2'>
-                                    <h6 style={{ fontSize: '13px' }} className='m-0'>{req.productId?.name}</h6>
+                                    <h6 style={{ fontSize: '13px' }} className='m-0'>{req.productId?.name || 'Product Not Found' }</h6>
                                     <p style={{ fontSize: '13px' }} className='m-0 text-secondary'>{req.productId?.description.slice(0, 20)}</p>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@ const RequestsList = () => {
                         <tbody>
                             <tr>
                                 <td style={{ width: '150px' }}><span style={{ fontWeight: '700' }}>Product Name:</span></td>
-                                <td><p className='m-0'>{selectedRequest && selectedRequest.productId?.name}</p></td>
+                                <td><p className='m-0'>{selectedRequest && selectedRequest.productId?.name || "Product Not Found"}</p></td>
                             </tr>
                             <tr>
                                 <td style={{ width: '150px' }}><span style={{ fontWeight: '700' }}>Description:</span></td>
@@ -157,7 +157,7 @@ const RequestsList = () => {
                             </tr>
                             <tr>
                                 <td style={{ width: '150px' }}><span style={{ fontWeight: '700' }}>Total Amount:</span></td>
-                                <td><b> {selectedRequest?.productId.price * selectedRequest?.quantity}</b></td>
+                                <td><b> {selectedRequest?.productId?.price * selectedRequest?.quantity}</b></td>
                             </tr>
                         </tbody>
                     </Table>

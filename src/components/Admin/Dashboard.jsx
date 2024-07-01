@@ -62,7 +62,7 @@ const Dashboard = () => {
 
     const calculatePending = (orderItems, tasks) => {
         // Convert tasks array to a set for faster lookup
-        const taskIds = new Set(tasks.map(task => task.orderItem._id));
+        const taskIds = new Set(tasks?.map(task => task?.orderItem?._id));
 
         console.log(taskIds)
         // Count pending items
