@@ -31,26 +31,46 @@ const Categories = () => {
     // Effect to handle category creation status and errors
     useEffect(() => {
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error' ,  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             }});
             dispatch(ClearCategoryError());
+            return
         }
 
         if (isCreated) {
-            enqueueSnackbar("Category Added", { variant: 'success' });
+            enqueueSnackbar("Category Added", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsCreated());
             dispatch(fetchCategory());
+            return
         }
 
         if (isUpdated) {
-            enqueueSnackbar("Category Updated", { variant: 'success' });
+            enqueueSnackbar("Category Updated", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsUpdated()); // Make sure to clear the isUpdated flag
             dispatch(fetchCategory());
+            return
         }
 
         if (isDeleted) {
-            enqueueSnackbar("Category Deleted", { variant: 'success' });
+            enqueueSnackbar("Category Deleted", { variant: 'success' ,  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             }});
             dispatch(ClearIsDeleted()); // Make sure to clear the isUpdated flag
             dispatch(fetchCategory());
+            return
         }
 
         dispatch(fetchCategory());

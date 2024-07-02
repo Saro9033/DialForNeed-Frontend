@@ -92,6 +92,7 @@ const Myprofile = () => {
                     dispatch(clearError());
                 },
             })
+            return
         }
         if (!LoginIsAuthenticated && user?.role === "user" || !LoginIsAuthenticated && user?.role === "employee") {
             console.log(LoginIsAuthenticated)

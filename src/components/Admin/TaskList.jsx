@@ -40,9 +40,14 @@ const TaskList = () => {
         }
 
         if (isDeleted) {
-            enqueueSnackbar("Task Deleted", { variant: 'success' });
+            enqueueSnackbar("Task Deleted", { variant: 'success' ,  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             }});
             dispatch(ClearIsDeleted()); // Make sure to clear the isUpdated flag
             dispatch(fetchTasks());
+            return
         }
 
         if (taskCreated) {
@@ -57,6 +62,7 @@ const TaskList = () => {
                 },
             });
             dispatch(fetchTasks());
+            return
         }
 
         dispatch(fetchTasks());

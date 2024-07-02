@@ -52,6 +52,7 @@ const Login = () => {
                   dispatch(clearError());
                 },
               })
+              return
 
         }
     }, [LoginAuthError, LoginIsAuthenticated,  navigate]);

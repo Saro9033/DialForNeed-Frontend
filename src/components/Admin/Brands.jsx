@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrandData, BrandError, BrandStatus, ClearBrandError,  ClearIsCreated, ClearIsDeleted, ClearIsUpdated, IsCreated, IsDeleted, IsUpdated,  createBrand, deleteBrand,  fetchBrands, updateBrand } from '../../slices/BrandSlice';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { MDBDataTable } from 'mdbreact';
-import { IoIosAddCircle } from "react-icons/io";
+import { IoIosAddCircle, IoIosReturnLeft } from "react-icons/io";
 import { useSnackbar } from 'notistack';
 import { Row, Col, Button } from 'react-bootstrap';
 
@@ -24,26 +24,46 @@ const Brands = () => {
     // Effect to handle category creation status and errors
     useEffect(() => {
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearBrandError());
+            return
         }
 
         if (isCreated) {
-            enqueueSnackbar("Brand Added", { variant: 'success' });
+            enqueueSnackbar("Brand Added", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsCreated());
             dispatch(fetchBrands());
+            return
         }
 
         if (isUpdated) {
-            enqueueSnackbar("Brand Updated", { variant: 'success' });
+            enqueueSnackbar("Brand Updated", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsUpdated()); // Make sure to clear the isUpdated flag
             dispatch(fetchBrands());
+            IoIosReturnLeft
         }
 
         if (isDeleted) {
-            enqueueSnackbar("Category Deleted", { variant: 'success' });
+            enqueueSnackbar("Category Deleted", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsDeleted()); // Make sure to clear the isUpdated flag
             dispatch(fetchBrands());
+            return
         }
 
         dispatch(fetchBrands());

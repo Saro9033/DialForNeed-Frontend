@@ -900,38 +900,59 @@ console.log(Categories)
     // Effect to handle success and error notifications
     useEffect(() => {
         if (ProductCreated) {
-            enqueueSnackbar("Product Created Successfully!", { variant: 'success' });
+            enqueueSnackbar("Product Created Successfully!", { variant: 'success',  
+             anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+              } });
             setModalShow(false);
             clearFormFields();
             dispatch(ClearIsProductCreated());
             dispatch(adminProducts());
-
+            return
         }
 
         if (ProductDeleted) {
-            enqueueSnackbar("Product Deleted Successfully!", { variant: 'success' });
+            enqueueSnackbar("Product Deleted Successfully!", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsProductDeleted());
             dispatch(adminProducts());
-
+            return
         }
 
         if (ProductUpdated) {
-            enqueueSnackbar("Product Updated Successfully!", { variant: 'success' });
+            enqueueSnackbar("Product Updated Successfully!", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             handleClose();
             dispatch(ClearIsProductUpdated());
             dispatch(adminProducts());
-
+            return
         }
 
         if (ProductError) {
-            enqueueSnackbar(ProductError, { variant: 'error' });
+            enqueueSnackbar(ProductError, { variant: 'error',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearError());
-
+            return
         }
 
         if (adminProductsError) {
-            enqueueSnackbar(adminProductsError, { variant: 'error' });
+            enqueueSnackbar(adminProductsError, { variant: 'error',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearError());
+            return
         }
     }, [ProductCreated, ProductDeleted, ProductUpdated, ProductError, adminProductsError, dispatch, enqueueSnackbar]);
 

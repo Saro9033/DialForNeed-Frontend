@@ -21,13 +21,23 @@ const EmpTasks = () => {
             try {
                 // Clear error message if there was any
                 if (error) {
-                    enqueueSnackbar(error, { variant: 'error' });
+                    enqueueSnackbar(error, { variant: 'error',  
+                    anchorOrigin: {
+                       vertical: 'top',
+                       horizontal: 'center',
+                     } });
                     dispatch(ClearTaskError());
+                    return
                 }
 
                 if(isRequested){
-                    enqueueSnackbar("Requested", { variant: 'success' });
+                    enqueueSnackbar("Requested", { variant: 'success',  
+                    anchorOrigin: {
+                       vertical: 'top',
+                       horizontal: 'center',
+                     } });
                     dispatch(ClearIsRequested())
+                    return
                 }
 
                 // Fetch tasks (assuming fetchEmployeesTasks is the correct action)

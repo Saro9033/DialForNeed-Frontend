@@ -46,6 +46,7 @@ const ProductDetails = () => {
                     dispatch(ClearReviewSubmmited());
                   },
               })
+              return
         }
 
         if (error) {
@@ -59,6 +60,7 @@ const ProductDetails = () => {
                   dispatch(ClearError());
                 },
               })
+              return
         }
 
         if (!product || ReviewSubmitted) {

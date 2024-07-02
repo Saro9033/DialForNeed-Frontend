@@ -33,26 +33,46 @@ export const Employees = () => {
 
     useEffect(() => {
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error' ,  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             }});
             dispatch(ClearEmployeeError());
+            return
         }
 
         if (isCreated) {
-            enqueueSnackbar("New Employee Created!", { variant: 'success' });
+            enqueueSnackbar("New Employee Created!", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsCreated());
             dispatch(fetchEmployees());
+            return
         }
 
         if (isUpdated) {
-            enqueueSnackbar("Employee Updated", { variant: 'success' });
+            enqueueSnackbar("Employee Updated", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsUpdated());
             dispatch(fetchEmployees());
+            return
         }
 
         if (isDeleted) {
-            enqueueSnackbar("Employee Deleted", { variant: 'success' });
+            enqueueSnackbar("Employee Deleted", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsDeleted());
             dispatch(fetchEmployees());
+            return
         }
 
         dispatch(fetchEmployees());

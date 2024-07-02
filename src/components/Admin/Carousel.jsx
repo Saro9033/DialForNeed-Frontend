@@ -31,20 +31,35 @@ const Carousel = () => {
 
     useEffect(() => {
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, { variant: 'error',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearCarouselError());
+            return
         }
 
         if (isCreated) {
-            enqueueSnackbar("Category Added", { variant: 'success' });
+            enqueueSnackbar("Category Added", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsCreated());
             dispatch(fetchCarousels());
+            return
         }
 
         if (isDeleted) {
-            enqueueSnackbar("Category Deleted", { variant: 'success' });
+            enqueueSnackbar("Category Deleted", { variant: 'success',  
+            anchorOrigin: {
+               vertical: 'top',
+               horizontal: 'center',
+             } });
             dispatch(ClearIsDeleted()); // Make sure to clear the isUpdated flag
             dispatch(fetchCarousels());
+            return
         }
 
         dispatch(fetchCarousels());

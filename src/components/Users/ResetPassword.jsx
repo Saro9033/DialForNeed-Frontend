@@ -57,6 +57,7 @@ const ResetPassword = () => {
                   dispatch(clearError());
                 },
               })
+              return
         }
     },[LoginIsAuthenticated,LoginAuthError, dispatch, navigate ])
 
