@@ -55,30 +55,30 @@ const EmpTasks = () => {
                 <div className="d-flex align-items-start justify-content-center">
                     <div className="loader"></div>
                 </div>
-            ) : tasks.length == 0 ? ( // Check tasks.length after ensuring tasks is initialized
+            ) : tasks.length == 0 ? 
                 <p>No Tasks</p>
-            ) : (
+             :( tasks.length > 0) && (
                 <ul style={{ listStyleType: 'none' }} className='m-0 p-0'>
 
                     {tasks.map((task) => ( // Ensure tasks is an array before mapping
                         <Link style={{textDecoration:'none', color:'unset'}} to={`/taskDetails/${task._id}`}  key={task._id} className='p-2 my-2 rounded-2 shadow-sm border d-flex align-items-center justify-content-between'>
                             <div className='d-flex align-items-center '>
-                                <img src={task.order.user.avatar ? task.order.user.avatar : avatar} width="50" height="50" style={{ borderRadius: '50%' }} className="border" alt="" />
+                                <img src={task?.order?.user?.avatar ? task.order.user.avatar : avatar} width="50" height="50" style={{ borderRadius: '50%' }} className="border" alt="" />
                                 <div className='d-flex flex-column pl-2'>
-                                    <h5 className='m-0'>{task.order.user.name}</h5>
+                                    <h5 className='m-0'>{task?.order?.user?.name}</h5>
                                     {/* <p style={{ fontSize: '14px' }} className='m-0 text-secondary'>{task.order.user.phoneNumber}</p> */}
                                     <p style={{ fontSize: '14px' }} className='m-0 text-secondary'>  Order on {new Date(task.order?.paidAt).toLocaleDateString()} </p>
 
                                 </div></div>
                             <div >
                                 <div>
-                                    {task.orderItem.status.includes("pending") || task.orderItem.status.includes("Pending") ? (
-                                        <span className='text-danger' style={{ fontSize: '14px', fontWeight: '600' }}>{task.orderItem.status}</span>
+                                    {task?.orderItem?.status.includes("pending") || task?.orderItem?.status?.includes("Pending") ? (
+                                        <span className='text-danger' style={{ fontSize: '14px', fontWeight: '600' }}>{task?.orderItem?.status}</span>
                                     ) : (
-                                        <span className='text-success' style={{ fontSize: '14px', fontWeight: '600' }}>{task.orderItem.status}</span>
+                                        <span className='text-success' style={{ fontSize: '14px', fontWeight: '600' }}>{task?.orderItem?.status}</span>
                                     )}
                                 </div>
-                                <button type="button" onClick={(e)=>handleRequested(e,task.orderItem._id)} className={`btn ${task.orderItem?.isRequested ? 'btn-outline-primary' : 'btn-primary'}`} style={{fontSize:'12px', padding:"3px 6px"}}>{task.orderItem?.isRequested ? 'Requested' : 'Send Request'}</button>
+                                <button type="button" onClick={(e)=>handleRequested(e,task?.orderItem._id)} className={`btn ${task?.orderItem?.isRequested ? 'btn-outline-primary' : 'btn-primary'}`} style={{fontSize:'12px', padding:"3px 6px"}}>{task.orderItem?.isRequested ? 'Requested' : 'Send Request'}</button>
                             </div>
                         </Link>
                     ))}
